@@ -1,0 +1,16 @@
+#no f-string example
+brand = input("Enter a car brand: ")
+country = input("Enter the country where the car brand is from: ")
+
+sentence = ("The car brand " + brand + " is from " + country)
+print(sentence)
+
+#f-string example
+brand = input("Enter a car brand: ")
+country = input("Enter the country where the car brand is from: ")
+
+sentence = (f"""The car brand {brand} is from {country}""")
+
+print("\n--- Your Sentence ---")
+print(sentence)
+
