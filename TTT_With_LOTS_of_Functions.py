@@ -1,14 +1,23 @@
 import random
 import copy
 
-def play_game():
+def play_game() -> None:
+  """
+  Initializes and runs the main game loop
+  """
   saveList = []
   
   for q in range(3):
     saveListPart = ["-" for i in range(3)]
     saveList.append(saveListPart)
   
-  def printBoard(board):
+  def printBoard(board: list[list[str]]) -> None:
+    """
+    Prints the current board to the console with proper formatting
+
+    Inputs:
+      board (list[list[str]]): 3x3 list of strings representing a grid
+    """
     for q in range(len(board)):
       for w in range(len(board[q])):
         if w != 2:
@@ -21,7 +30,17 @@ def play_game():
       else:
         print()
   
-  def win(board, player):
+  def win(board: list[list[str]], player: str) -> bool:
+    """
+    Checks if the player has a winning configuration
+
+    Inputs:
+      board (list[list[str]]): Current game board
+      player (str): Symbol to check ('X' or 'O')
+
+    Returns:
+      bool: True if the player won, and False otherwise
+    """
     if board[0][0] == player and board[0][1] == player and board[0][2] == player: #row 1
       return(True)
     if board[1][0] == player and board[1][1] == player and board[1][2] == player: #row 2
@@ -39,14 +58,33 @@ def play_game():
     if board[0][2] == player and board[1][1] == player and board[2][0] == player: #right to left diagonal
       return(True)
   
-  def tie(board):
+  def tie(board: list[list[str]]) -> bool:
+    """
+    Checks if the board is full with no wins
+
+    Inputs:
+      board (list[list[str]]): Current game board
+
+    Returns:
+      bool: True if there is a tie, and False otherwise
+    """
     for q in board:
       for w in q:
         if w == "-":
           return(False)
     return(True)
   
-  def winningMove(board, role):
+  def winningMove(board: list[list[str]], role: str) -> tuple[int, int]:
+    """
+    Simulates the board to see if 'role' has a move that wins
+
+    Inputs:
+      board (list[list[str]]): Current game board
+      role (str): Symbol ('X' or 'O')
+
+    Returns:
+      tuple[int, int]: The (row, column) coordinates of the winning move, or (-1, -1) if none exists
+    """
     boardCopy = board.copy()
     for q in range(len(boardCopy)):
       for w in range(len(boardCopy[q])):
@@ -58,7 +96,18 @@ def play_game():
             boardCopy[q][w] = "-"
     return(-1, -1)
   
-  def forks(board, role_f, role_p):
+  def forks(board: list[list[str]], role_f: str, role_p: str) -> tuple[int, int]:
+    """
+    Checks for a 'fork' opportunity (a move that creates two winning lines)
+
+    Inputs:
+      board (list[list[str]]): Current game board
+      role_f (str): Role creating the fork
+      role_p (str): Opponent
+
+    Returns:
+      tuple[int, int]: The (row, column) of the fork move or (-1, -1)
+    """
     boardCopy = copy.deepcopy(board)
     for q in range(len(boardCopy)):
       for w in range(len(boardCopy[q])):
@@ -75,7 +124,18 @@ def play_game():
           boardCopy[q][w] = "-"
     return(-1,-1)
   
-  def ai(board, bot_role, player_role):
+  def ai(board: list[list[str]], bot_role: str, player_role: str) -> tuple[int, int]:
+    """
+    AI logic controller that determines the best move based off of priority
+
+    Inputs:
+      board (list[list[str]]): Current game board
+      bot_role (str): AI's letter
+      player_role (str): Player's letter
+
+    Returns:
+      tuple[int, int]: The (row, col) of the chosen move
+    """
     #Check for winning move
     winOutBot = winningMove(board, bot_role)
     if winOutBot[0] != -1:
@@ -159,4 +219,5 @@ while True:
     play_game()
     user_input = input("\nPress Enter to exit, or type anything and press Enter to restart: ").strip()
     if not user_input:
+
         break
